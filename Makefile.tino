@@ -1,0 +1,31 @@
+# $Header$
+#
+# Makefile to create Makefile.  Public domain.
+#
+# $Log$
+# Revision 1.1  2005-02-05 23:07:28  tino
+# first commit, tinohtmlparse.c is missing "text" aggregation
+#
+
+      PROGS=tinohtmlparse
+       OBJS=
+       LIBS=
+# If you use -I. or -Itino, be sure to use -I-, too.
+ ADD_CFLAGS=
+ADD_LDFLAGS=
+ ADD_LDLIBS=ekhtml/src/.libs/libekhtml.a
+      CLEAN=
+  DISTCLEAN=
+   TINOCOPY=
+#    TINOINC=tino_common.h
+#    TINOLIB=tino/lib.h
+#INSTALLPATH=/usr/local
+# DBG_CFLAGS=
+#DBG_LDFLAGS=
+# DBG_LDLIBS=-lefence
+# STD_CFLAGS=
+#STD_LDFLAGS=
+# STD_LDLIBS=
+
+Makefile::
+	$(MAKE) -C tino tino HERE="$(PWD)"

@@ -1,0 +1,5 @@
+Makefile
+Makefile.md5
+*.d
+tinohtmlparse
+tinohtmlparse_version.h
