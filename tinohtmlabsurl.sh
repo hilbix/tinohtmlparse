@@ -11,7 +11,10 @@
 # like applet_codebase, applet_code etc.
 #
 # $Log$
-# Revision 1.1  2005-02-05 23:07:28  tino
+# Revision 1.2  2005-02-06 00:17:06  tino
+# Only full lines are fed to the parser to make output more easy to parse.
+#
+# Revision 1.1  2005/02/05 23:07:28  tino
 # first commit, tinohtmlparse.c is missing "text" aggregation
 #
 
@@ -147,7 +150,7 @@ BEGIN	{
 	tag["base","href"]=1
 
 	# I am conservative
-	# Don't touch background,href,src I don't understand.
+	# Do not touch background,href,src I do not understand.
 	tag["a","href"]=2
 	tag["area","href"]=2
 	tag["bgsound","src"]=2

@@ -5,7 +5,10 @@
  * Based dirctly on tester.c from ekhtml code.
  *
  * $Log$
- * Revision 1.1  2005-02-05 23:07:28  tino
+ * Revision 1.2  2005-02-06 00:17:06  tino
+ * Only full lines are fed to the parser to make output more easy to parse.
+ *
+ * Revision 1.1  2005/02/05 23:07:28  tino
  * first commit, tinohtmlparse.c is missing "text" aggregation
  *
  */
@@ -13,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include <ctype.h>
 
 #include "ekhtml/include/ekhtml.h"
@@ -181,6 +185,11 @@ cb_comment(void *x, ekhtml_string_t *comment)
   p_m("comment", comment);
 }
 
+/* ekHTML does not call this with full lines.  Instead it calls this
+ * with just the data it has so far.  This is correct, but in our case
+ * I don't want to have partial lines in normal situations.
+ * This is now "fixed" by feeding full lines into the parser.
+ */
 static void
 cb_data(void *x, ekhtml_string_t *data)
 {
@@ -192,7 +201,10 @@ cb_data(void *x, ekhtml_string_t *data)
 int
 main(void)
 {
-  ekhtml_parser_t *p;
+  ekhtml_parser_t	*p;
+  ekhtml_string_t	s;
+  char			buf[BUFSIZ*10];
+  int			fill;
 
   p = ekhtml_parser_new(NULL);
     
@@ -200,20 +212,41 @@ main(void)
   ekhtml_parser_commentcb_set(p, cb_comment);
   ekhtml_parser_startcb_add(p, NULL, cb_start);
   ekhtml_parser_endcb_add(p, NULL, cb_end);
-    
+
+  fill	= 0;
   for (;;)
     {
-      ekhtml_string_t	s;
-      char		buf[10];
+      int	n, i, k;
 
       if (fflush(stdout) || ferror(stdin) || feof(stdout) || ferror(stdout))
         return 1;
 
-      s.str	= buf;
-      if ((s.len=fread(buf, 1, sizeof buf, stdin))==0)
-        break;
+      n		= fread(buf+fill, 1, sizeof buf-fill, stdin);
+      fill	+= n;
 
+      /* Ugly fix:
+       * Only feed full lines to ekhtml,
+       * such that cb_data only gets full lines.
+       */
+      k		= fill;
+      if (n)
+	for (i=fill; --i>=0; )
+	  if (buf[i]=='\n')
+	    {
+	      k	= i+1;
+	      break;
+	    }
+
+      s.str	= buf;
+      s.len	= k;
       ekhtml_parser_feed(p, &s);
+      if (n==0)
+	break;
+
+      fill	-= k;
+      if (fill)
+	memmove(buf, buf+k, fill);
+
 #if 1
       ekhtml_parser_flush(p, 0);
 #endif

@@ -1,0 +1,9 @@
+2005-02-06    <tino@firebird.03.softkill.net>
+
+	* tinohtmlparse.c (main): Ugly hack added to only feed full lines
+	to ekhtml, as else cb_data might be called with incomplete lines.
+	This is not the right way to do it.  It shall buffer the last line
+	in cb_data, and flush the data to stdout as soon something else
+	comes up.  However this is fairly complicated.  This way is quick
+	and dirty, however the line numbers might get mixed up (restart at
+	0 suddenly).  I can live with it.
