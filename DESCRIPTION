@@ -1,0 +1,12 @@
+Simple HTML parser to extract information from HTML files by shell
+# $Header$
+#
+# $Log$
+# Revision 1.1  2005-02-05 23:57:23  tino
+# first commmit
+#
+
+tinohtmlparse is based on ekHTML parser, to enable simple shell
+scripts to extract data out of an HTML file.
+
+For an example read the <A HREF=/tinohtmlparse/README>README</A> file.
