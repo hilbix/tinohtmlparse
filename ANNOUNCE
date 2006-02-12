@@ -1,1 +1,5 @@
-First version, usable, but nearly not tested at all.
+Now parses HTML entities in attributes into the correct text as EKHTML does forget to do this.
+
+Call with --raw to get the old behavior.
+
+This new parsing is just a hack and not complete yet!

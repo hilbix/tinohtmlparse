@@ -3,9 +3,11 @@
 # Makefile to create Makefile.  Public domain.
 #
 # $Log$
-# Revision 1.1  2005-02-05 23:07:28  tino
-# first commit, tinohtmlparse.c is missing "text" aggregation
+# Revision 1.2  2006-02-12 03:35:41  tino
+# new dist for version with html entitiy parsing
 #
+# Revision 1.1  2005/02/05 23:07:28  tino
+# first commit, tinohtmlparse.c is missing "text" aggregation
 
       PROGS=tinohtmlparse
        OBJS=
@@ -16,7 +18,7 @@ ADD_LDFLAGS=
  ADD_LDLIBS=ekhtml/src/.libs/libekhtml.a
       CLEAN=
   DISTCLEAN=
-   TINOCOPY=
+   TINOCOPY=tino/html_entities.h
 #    TINOINC=tino_common.h
 #    TINOLIB=tino/lib.h
 #INSTALLPATH=/usr/local

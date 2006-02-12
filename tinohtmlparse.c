@@ -1,16 +1,19 @@
 /* $Header$
  *
  * Not copyrighted.  Public Domain.
+ * NOTE THAT EKHTML IS NOT PD!
  *
  * Based dirctly on tester.c from ekhtml code.
  *
  * $Log$
- * Revision 1.2  2005-02-06 00:17:06  tino
+ * Revision 1.3  2006-02-12 03:35:41  tino
+ * new dist for version with html entitiy parsing
+ *
+ * Revision 1.2  2005/02/06 00:17:06  tino
  * Only full lines are fed to the parser to make output more easy to parse.
  *
  * Revision 1.1  2005/02/05 23:07:28  tino
  * first commit, tinohtmlparse.c is missing "text" aggregation
- *
  */
 
 #include <stdio.h>
@@ -22,6 +25,10 @@
 #include "ekhtml/include/ekhtml.h"
 
 #include "tinohtmlparse_version.h"
+
+#include "tino_html_entities.h"
+
+static int	raw_mode;
  
 static void
 spc(void)
@@ -48,6 +55,26 @@ cp(char c)
 {
    putchar(isprint(c) && !isspace(c) ? c : '_');
 }
+
+static void
+cx(int c)
+{
+  co("0123456789abcdef"[((unsigned)c)&0xf]);
+}
+
+static void
+ce(int c)
+{
+  if (c<32 || c>126 || c=='%')
+    {
+      co('%');
+      cx(c>>4);
+      cx(c);
+    }
+  else
+    co(c);
+}
+
 
 /**********************************************************************/
 
@@ -94,6 +121,48 @@ p_t(ekhtml_string_t *s)
     m--;
   for (i=0; i<m; i++)
     co(s->str[i]);
+}
+
+/* Print string,
+ * but parse html_entities
+ *
+ * Well, I assume that it's a link.
+ * So UTF8 will be transformed into % notation.
+ */
+static void
+p_ent(ekhtml_string_t *s)
+{
+  int	i, m;
+
+  m	= s->len;
+  for (i=0; i<m; )
+    {
+      if (!raw_mode && s->str[i]=='&')
+	{
+	  int	len;
+	  int	u;
+
+	  len	= m-i;
+	  u	= tino_html_entity_check(s->str+i, &len);
+	  if (u>=0)
+	    {
+	      if (u>0xff)
+		{
+		  co('%');
+		  co('u');
+		  cx(u>>12);
+		  cx(u>>8);
+		  cx(u>>4);
+		  cx(u);
+		}
+	      else
+		ce(u);
+	      i	+= len;
+	      continue;
+	    }
+	}
+      ce(s->str[i++]);
+    }
 }
 
 /* Prefixed Message
@@ -166,7 +235,7 @@ cb_start(void *x, ekhtml_string_t *tag, ekhtml_attr_t *att)
 	{
 	  p_b("N");
 	}
-      p_t(&attr->val);
+      p_ent(&attr->val);
       p_e();
     }
 }
@@ -199,13 +268,43 @@ cb_data(void *x, ekhtml_string_t *data)
 /**********************************************************************/
 
 int
-main(void)
+main(int argc, char **argv)
 {
   ekhtml_parser_t	*p;
   ekhtml_string_t	s;
   char			buf[BUFSIZ*10];
   int			fill;
+  int			i;
 
+  raw_mode	= 0;
+  for (i=1; i<argc; i++)
+    {
+      if (!strcmp(argv[1], "-r") || !strcmp(argv[1], "--raw"))
+	{
+	  raw_mode	= !raw_mode;
+	  continue;
+	}
+      if (!strcmp(argv[1], "-l") || !strcmp(argv[1], "--list"))
+	{
+	  struct tino_html_entities	*p;
+
+	  for (p=tino_html_entities; p->unicode; p++)
+	    printf("%04x\t%5d\t%s\n", p->unicode, p->unicode, p->entity);
+	  return 0;
+	}
+      fprintf(stderr,
+	      "Usage: %s [options]\n"
+	      "\t\tVersion " TINOHTMLPARSE_VERSION " compiled " __DATE__ "\n"
+	      "\t--raw\t(also -r) Do not interpret htmlentities\n"
+	      "\t\tIf you depend on the broken values, give --raw\n"
+	      "\t\tElse tinohtmlparse tries to parse things for HTML entities\n"
+	      "\t\tand transfor something clever, which probably is unwanted\n"
+	      "\t--list\t(also -l) List known htmlentities (without & and ;)\n"
+	      "\t\tNote that &#n; and &#xX; also is known but not listed.\n"
+	      , argv[0]
+	      );
+      return 1;
+    }
   p = ekhtml_parser_new(NULL);
     
   ekhtml_parser_datacb_set(p, cb_data);

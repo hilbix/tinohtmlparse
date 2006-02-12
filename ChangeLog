@@ -1,3 +1,11 @@
+2006-02-12    <tino@firebird.03.softkill.net>
+
+	* tinohtmlparse.c (cb_start): EKHTML does not parse HTML-entities
+	in atrribute strings.  Added this into tinohtmlparse.
+	(p_ent): added for HTML-entity parsing
+	(cx, ce): added for HTML-entitiy parsing output
+	(main): usage added
+
 2005-02-06    <tino@firebird.03.softkill.net>
 
 	* tinohtmlparse.c (main): Ugly hack added to only feed full lines
