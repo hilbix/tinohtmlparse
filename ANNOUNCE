@@ -1,5 +1,3 @@
-Now parses HTML entities in attributes into the correct text as EKHTML does forget to do this.
+Minor changes.
 
-Call with --raw to get the old behavior.
-
-This new parsing is just a hack and not complete yet!
+Basically only the documentation was corrected and typos removed.

@@ -6,7 +6,10 @@
  * Based dirctly on tester.c from ekhtml code.
  *
  * $Log$
- * Revision 1.3  2006-02-12 03:35:41  tino
+ * Revision 1.4  2006-06-11 06:57:30  tino
+ * Mainly only documentation corrected
+ *
+ * Revision 1.3  2006/02/12 03:35:41  tino
  * new dist for version with html entitiy parsing
  *
  * Revision 1.2  2005/02/06 00:17:06  tino
@@ -293,7 +296,7 @@ main(int argc, char **argv)
 	  return 0;
 	}
       fprintf(stderr,
-	      "Usage: %s [options]\n"
+	      "Usage: %s [options] < HTMLFILE > parsed_output\n"
 	      "\t\tVersion " TINOHTMLPARSE_VERSION " compiled " __DATE__ "\n"
 	      "\t--raw\t(also -r) Do not interpret htmlentities\n"
 	      "\t\tIf you depend on the broken values, give --raw\n"

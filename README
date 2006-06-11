@@ -12,17 +12,17 @@ example it does not parse Comments correctly, like in the following:
 sometimes I come around and write a working version (which then shall
 be able to sanitize HTML as well), but for now, we keep it as it is.
 
-So first fetch ekhtml from CVS at sourceforge.net:
+First fetch ekhtml from CVS at sourceforge.net:
 	cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/ekhtml login
 		(empty password)
 	cvs -z3 -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/ekhtml co ekhtml
-
-Compile it:
+Compile ekhtml:
 	cd ekhtml; ./autogen.sh; make
+
+To compile tinohtmlparse:
 
 Create softlink to the source of ekhtml if you compiled it in another directory:
 	ln -s ../somewhere/ekhtml ekhtml
-
 Then type
 	make
 
@@ -33,30 +33,39 @@ tinolib and let the softlink point there like this:
 Note that tinolib restricts distributions which bundle it to GPL!
 
 
-After make you will get a simple program which converts any HTML file
-into lines with the following parameters:
+Usage:
+	tinohtmlparse [-r|--raw] [-l|--list]
 
-TYPE TAG PARAM Q TEXT
+--list shows a list of known entities
 
-where TYPE is a type string (guaranteed to not contain a SPC), TAG
-(never contains a SPC or is empty) is a TAG name, PARAM is a parameter
-name (never contains a SPA or is empty), Q is a Quote type of the text
-(never contains SPC or is empty), and a possibly multiline TEXT.
-Continuation lines start with a + on the next line.  Usually the
-"TYPE" is repeated as noted with the TYPE.  The last LF is always
-added to text, so if TEXT ends on LF then you see LF TAB LF
+--raw does not convert these entities to their % representation in
+attributes.
 
-In case Q is not processed it is given as -.  Q can be B which means
-"boolean attribute with TEXT missing".  Q can be N which means, text
-was not quoted (same as -).  Q can be ' or " in case this type of
-quotes were removed from text.  There is a form which shall not show
-up, which shows the Quote as two HEX digits HH.
+The HTML file is read from stdin and the output is written to stdout.
+The parsed lines all look like following template:
 
+TYPE TAG ATTR Q TEXT
+
+The first 4 words are guaranteed to not contain SPC ever.  If they are
+empty it is guaranteed that no more words or text follows.
+
+- TYPE is a type string (see below)
+- TAG usually is the HTML TAG (ekhtml converts this to uppercase)
+- ATTR is the attribute name
+- Q is a Quote type of the text which follows.
+- TEXT is the text and is % escaped such that it is URL compatible
+
+When TYPE is "text" or "comment" then TAG is a number counting the
+lines starting with 0, ATTR is an LF flag and Q always is -.
+
+Q can be B for boolean attribs (those without =), N (was not quoted),
+' or " (the quote which was used).  There is a form where Quote is two
+HEX digits HH, but this never shall show up (it's in case ekhtml send
+some unusual quote character).
 
 So you can do
 
 ./tinohtmlparse < htmlfile |
-grep -v ^+ |
 ./tinohtmlabsurl.sh "BASEURL" |
 while read -r type tag name q text
 do
@@ -70,30 +79,35 @@ open TAG
 close TAG
 	Open and closing TAG tags encountered.  TEXT is empty.
 
-attr TAG NAME Q TEXT
+attr TAG ATTR Q TEXT
 	A named attribute, immediately follows "open".
+
 	TAG is the TAG it belongs to, added for more easy parsing.
-	NAME does not contain any non-whitespace characters.
-	The Quotes are removed from TEXT and the TEXT is continued on
-	the next line in case it contains an LF, which usually means,
-	the attribute is faulty and you can happily ignore the
-	continued text. Note that "attr HREF " apparently is an error.
+	ATTR is the attribute's name.
 
-text # LF - TEXT
-comment # LF - TEXT
-	# is the line count.
-	LF is either 0 (TEXT does not contain a LF) or 1 (TEXT does contain an LF).
-	Multiple lines are repetead this way, so there are no continuation lines.
+	The text is URL-escaped with %, that is %xx is the hex
+	representation of any unusual character (including %).  For
+	unicode characters there is the representation %uXXXX.
+
+	If 
+
+text COUNT LF - TEXT
+comment COUNT LF - TEXT
+	COUNT is the line count.
+
+	LF is either 0 (TEXT does not contain a LF) or 1 (TEXT does
+	contain an LF).  Multiple lines are repeated with the line
+	count counted up, so there are no complex to parse
+	continuation lines.
+
 	In case of the comment form, this is the commented out text.
-
-The output was created for maximum parsing ease from the shell.  In
-case of "continuation lines" (lines starting with TAB) this usually
-means, that something with the TEXT is wrong, in nearly all cases you
-can happily ignore it.
 
 -Tino
 webmaster@scylla-charybdis.com
 $Log$
-Revision 1.1  2005-02-05 23:07:28  tino
+Revision 1.2  2006-06-11 06:57:30  tino
+Mainly only documentation corrected
+
+Revision 1.1  2005/02/05 23:07:28  tino
 first commit, tinohtmlparse.c is missing "text" aggregation
 
