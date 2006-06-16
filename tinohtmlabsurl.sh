@@ -11,20 +11,24 @@
 # like applet_codebase, applet_code etc.
 #
 # $Log$
-# Revision 1.2  2005-02-06 00:17:06  tino
+# Revision 1.3  2006-06-16 20:35:41  tino
+# Jump now name anchor, which can be understood better.
+# Capability to send all non-URL-lines elsewhere, if you concentrate on URLs
+#
+# Revision 1.2  2005/02/06 00:17:06  tino
 # Only full lines are fed to the parser to make output more easy to parse.
 #
 # Revision 1.1  2005/02/05 23:07:28  tino
 # first commit, tinohtmlparse.c is missing "text" aggregation
-#
 
-if [ 1 != "$#" ]
+if [ 1 != "$#" -a 2 != "$#" ]
 then
-	echo "Usage: tinohtmlparse | `basename "$0"` BASEURL" >&2
+	echo "Usage: tinohtmlparse | `basename "$0"` BASEURL [/dev/stdout]
+	Second argument gives file for non url lines" >&2
 	exit 1
 fi
 
-awk -v BASE="$1" '
+awk -v BASE="$1" -v NOURLOUT="${2:-/dev/stdout}" '
 function shift(x)
 {
   sub(/^[^[:space:]]*[[:space:]]/,"",x);
@@ -32,11 +36,11 @@ function shift(x)
 }
 
 # http://user:pass@hostname/path/to/index.html?var=data#text
-# -type-!!-user---!!-host-!!-path--!!-file---!!-query-!!-jump-
+# -type-!!-user---!!-host-!!-path--!!-file---!!-query-!!-anchor-
 #
 # relative URLs: path does not start with /
 # Special characters:
-# # starts the jump anywhere in the URL
+# # starts the anchor anywhere in the URL
 # ? starts the query part anywhere in the URL
 # @ must preceede host, which must precede /
 #
@@ -47,11 +51,11 @@ function parseuri(u, b, c)
 {
   delete parsed
 
-  # fetch #jump
+  # fetch #anchor
   b	= u;
   gsub(/^[^#]*/, "", b);
   gsub(/#.*$/,"",u);
-  parsed["jump"]=b
+  parsed["anchor"]=b
 
   # Fetch ?query
   b	= u;
@@ -104,7 +108,7 @@ function dump(t,a,s)
   a="path";  s=s sprintf(" %s=\"%s\"", a, parsed[a]);
   a="file";  s=s sprintf(" %s=\"%s\"", a, parsed[a]);
   a="query"; s=s sprintf(" %s=\"%s\"", a, parsed[a]);
-  a="jump";  s=s sprintf(" %s=\"%s\"", a, parsed[a]);
+  a="anchor";  s=s sprintf(" %s=\"%s\"", a, parsed[a]);
 
   print s
 }
@@ -143,7 +147,7 @@ function makefull(u,p)
 
   dump("2");
 
-  return parsed["type"] parsed["user"] parsed["host"] parsed["path"] parsed["file"] parsed["query"] parsed["jump"];
+  return parsed["type"] parsed["user"] parsed["host"] parsed["path"] parsed["file"] parsed["query"] parsed["anchor"];
 }
 
 BEGIN	{
@@ -181,12 +185,14 @@ $1=="attr" && (t=tag[tolower($2),tolower($3)])!=0	{
 		n=makefull(uri)
 		if (uri!=n)
 		  {
-		    print "# " $0
+		    print "# " $0 > NOURLOUT
 		    print $1 " " $2 " " $3 " " $4 " " n
 		    next
 		  }
+		print
+		next
 		}
 	}
 
-	{ print }
+	{ print >NOURLOUT  }
 '
