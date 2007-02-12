@@ -6,7 +6,10 @@
  * Based dirctly on tester.c from ekhtml code.
  *
  * $Log$
- * Revision 1.4  2006-06-11 06:57:30  tino
+ * Revision 1.5  2007-02-12 07:00:02  tino
+ * Commit for dist, see ChangeLog
+ *
+ * Revision 1.4  2006/06/11 06:57:30  tino
  * Mainly only documentation corrected
  *
  * Revision 1.3  2006/02/12 03:35:41  tino
@@ -331,23 +334,22 @@ main(int argc, char **argv)
        * such that cb_data only gets full lines.
        */
       k		= fill;
-      if (n)
-	for (i=fill; --i>=0; )
-	  if (buf[i]=='\n')
-	    {
-	      k	= i+1;
-	      break;
-	    }
+      for (i=0; i<fill; i++)
+	if (buf[i]=='\n')
+	  {
+	    k	= i+1;
+	    break;
+	  }
 
       s.str	= buf;
       s.len	= k;
       ekhtml_parser_feed(p, &s);
-      if (n==0)
-	break;
 
       fill	-= k;
       if (fill)
 	memmove(buf, buf+k, fill);
+      else if (!n)
+	break;
 
 #if 1
       ekhtml_parser_flush(p, 0);

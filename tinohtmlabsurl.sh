@@ -11,7 +11,10 @@
 # like applet_codebase, applet_code etc.
 #
 # $Log$
-# Revision 1.3  2006-06-16 20:35:41  tino
+# Revision 1.4  2007-02-12 07:00:02  tino
+# Commit for dist, see ChangeLog
+#
+# Revision 1.3  2006/06/16 20:35:41  tino
 # Jump now name anchor, which can be understood better.
 # Capability to send all non-URL-lines elsewhere, if you concentrate on URLs
 #
@@ -24,7 +27,7 @@
 if [ 1 != "$#" -a 2 != "$#" ]
 then
 	echo "Usage: tinohtmlparse | `basename "$0"` BASEURL [/dev/stdout]
-	Second argument gives file for non url lines" >&2
+	Second argument gives file for non-URL lines" >&2
 	exit 1
 fi
 
@@ -110,7 +113,7 @@ function dump(t,a,s)
   a="query"; s=s sprintf(" %s=\"%s\"", a, parsed[a]);
   a="anchor";  s=s sprintf(" %s=\"%s\"", a, parsed[a]);
 
-  print s
+  print s >NOURLOUT
 }
 
 function setbase(b)
