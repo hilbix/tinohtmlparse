@@ -1,2 +1,1 @@
-Bugfix: % signs in URLs are now no more double escaped.
-Bugfix: SPC (Blanks) in URLs are now properly % escaped.
+README corrected
