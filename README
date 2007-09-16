@@ -6,6 +6,9 @@ be compliant to the EKTHML license.
 
 Origin: http://www.scylla-charybdis.com/tool.php?tool=tinohtmlparse
 
+Compile:
+========
+
 This is currently based on ekhtml, a deadly inperfect HTML parser (for
 example it does not parse Comments correctly, like in the following:
 <!DTD -- comment 1 -- more DTD -- comment 2 -- again DTD />).  Perhaps
@@ -32,6 +35,9 @@ tinolib and let the softlink point there like this:
 		ln -s ../somewhere/tinolib-*/old tinolib
 Note that tinolib restricts distributions which bundle it to GPL!
 
+
+Usage:
+======
 
 Usage:
 	tinohtmlparse [-r|--raw] [-l|--list]
@@ -74,6 +80,7 @@ done
 
 
 Output documentation:
+=====================
 
 open TAG
 close TAG
@@ -104,10 +111,37 @@ comment COUNT LF - TEXT
 
 	In case of the comment form, this is the commented out text.
 
+
+Notes:
+======
+
+People out there partly write deadly HTML code.  tinohtmlparse is
+too perfect to handle this - all heuristics are missing.
+
+For example what I already have seen (yes, this are TWO lines):
+
+<img src=" pic
+.jpg">
+
+Firefox handles this correctly and loads pic.jpg!  So it silently
+trims SPCs from URLs and removes CRs and LFs from within, too.
+tinohtmlparse does not do this.  It transforms the URL into
+%20pic%0a.jpg, which then probably is not found on the server.
+
+If you need to parse such crap, apply your own heuristics.
+tinohtmlparse will never do this for you.
+
+Please also note that before 0.1.4 the SPC was not escaped to
+%20, it was output unchanged.  This is fixed now.
+
+
 -Tino
 webmaster@scylla-charybdis.com
 $Log$
-Revision 1.3  2007-09-16 06:10:17  tino
+Revision 1.4  2007-09-16 06:19:05  tino
+Output documentation fixed and notes added
+
+Revision 1.3  2007/09/16 06:10:17  tino
 corrected
 
 Revision 1.2  2006/06/11 06:57:30  tino
@@ -115,4 +149,3 @@ Mainly only documentation corrected
 
 Revision 1.1  2005/02/05 23:07:28  tino
 first commit, tinohtmlparse.c is missing "text" aggregation
-
