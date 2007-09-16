@@ -1,12 +1,2 @@
-Bugfix: For some reason, lines which were fed to EKHTML were broken
-into parts.
-
-It looks like EKHTML internally has a buffer where it copies data to,
-such that in certain circumstances cb_data() still was called with
-incomplete lines.  This here is another fix for this.  It perhaps
-still isn't perfect, as this should be fixed in cb_data() and not in
-the call to EKTHML.  (However fixing it in cb_data() needs a lot of
-rewrite.)  For now it seems to work as expected.
-
-Also tinohtmlabsurl.sh has now the ability to send non-URL lines to
-some file descriptor (like /dev/null).
+Bugfix: % signs in URLs are now no more double escaped.
+Bugfix: SPC (Blanks) in URLs are now properly % escaped.

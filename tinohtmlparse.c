@@ -6,7 +6,10 @@
  * Based dirctly on tester.c from ekhtml code.
  *
  * $Log$
- * Revision 1.5  2007-02-12 07:00:02  tino
+ * Revision 1.6  2007-09-16 06:04:49  tino
+ * Percent escape handling corrected
+ *
+ * Revision 1.5  2007/02/12 07:00:02  tino
  * Commit for dist, see ChangeLog
  *
  * Revision 1.4  2006/06/11 06:57:30  tino
@@ -71,7 +74,7 @@ cx(int c)
 static void
 ce(int c)
 {
-  if (c<32 || c>126 || c=='%')
+  if (c<=32 || c>126) /* || c=='%') */
     {
       co('%');
       cx(c>>4);
