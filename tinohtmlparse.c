@@ -1,11 +1,18 @@
 /* $Header$
  *
- * Not copyrighted.  Public Domain.
- * NOTE THAT EKHTML IS NOT PD!
+ * This Works is placed under the terms of the Copyright Less License,
+ * see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
  *
- * Based dirctly on tester.c from ekhtml code.
+ * NOTE THAT ABOVE ONLY APPLIES TO THE CODE WITHIN THIS FILE, YOU MUST
+ * HONOR THE EKTHML LICENSE IF YOU USE EKHTML!
+ *
+ * Written from scratch while reading the demo code tester.c from
+ * ekhtml.
  *
  * $Log$
+ * Revision 1.7  2007-12-30 17:57:03  tino
+ * Placed under the CLL, also one entity code was fixed (&and;)
+ *
  * Revision 1.6  2007-09-16 06:04:49  tino
  * Percent escape handling corrected
  *

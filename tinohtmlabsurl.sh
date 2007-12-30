@@ -2,15 +2,17 @@
 #
 # $Header$
 #
-# Copyright (C)2005 by Valentin Hilbig
-# Public Domain as long as Copyright is retained.
-# Use at own risk, no warranty!
-#
 # THIS IS NOT PERFECT,
 # it does not process a lot of URI attributes for now,
 # like applet_codebase, applet_code etc.
 #
+# This Works is placed under the terms of the Copyright Less License,
+# see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
+#
 # $Log$
+# Revision 1.5  2007-12-30 17:57:03  tino
+# Placed under the CLL, also one entity code was fixed (&and;)
+#
 # Revision 1.4  2007-02-12 07:00:02  tino
 # Commit for dist, see ChangeLog
 #

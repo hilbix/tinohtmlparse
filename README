@@ -1,10 +1,12 @@
 $Header$
 
-THIS CURRENTLY IS PUBLIC DOMAIN AND CAN BE DISTRIBUTED UNDER ANY
-LICENSE.  However as it ekhtml is linked in statically, binaries must
+This Works is placed under the terms of the Copyright Less License,
+see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
+
+However as it ekhtml is linked in statically, binaries must
 be compliant to the EKTHML license.
 
-Origin: http://www.scylla-charybdis.com/tool.php?tool=tinohtmlparse
+Origin: http://www.scylla-charybdis.com/tool.php/tinohtmlparse
 
 Compile:
 ========
@@ -138,6 +140,9 @@ Please also note that before 0.1.4 the SPC was not escaped to
 -Tino
 webmaster@scylla-charybdis.com
 $Log$
+Revision 1.6  2007-12-30 17:57:03  tino
+Placed under the CLL, also one entity code was fixed (&and;)
+
 Revision 1.5  2007-12-30 17:15:45  tino
 SF URL
 
