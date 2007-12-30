@@ -16,9 +16,9 @@ sometimes I come around and write a working version (which then shall
 be able to sanitize HTML as well), but for now, we keep it as it is.
 
 First fetch ekhtml from CVS at sourceforge.net:
-	cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/ekhtml login
+	cvs -d :pserver:anonymous@ekthml.cvs.sourceforge.net:/cvsroot/ekhtml login
 		(empty password)
-	cvs -z3 -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/ekhtml co ekhtml
+	cvs -z3 -d :pserver:anonymous@ekhtml.cvs.sourceforge.net:/cvsroot/ekhtml co ekhtml
 Compile ekhtml:
 	cd ekhtml; ./autogen.sh; make
 
@@ -138,6 +138,9 @@ Please also note that before 0.1.4 the SPC was not escaped to
 -Tino
 webmaster@scylla-charybdis.com
 $Log$
+Revision 1.5  2007-12-30 17:15:45  tino
+SF URL
+
 Revision 1.4  2007-09-16 06:19:05  tino
 Output documentation fixed and notes added
 
