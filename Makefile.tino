@@ -3,6 +3,9 @@
 # Makefile to create Makefile.  Public domain.
 #
 # $Log$
+# Revision 1.4  2009-01-28 19:31:22  tino
+# Changed to install to /usr/local
+#
 # Revision 1.3  2007-02-12 07:00:02  tino
 # Commit for dist, see ChangeLog
 #
@@ -25,7 +28,7 @@ ADD_LDFLAGS=
    TINOCOPY=tino/html_entities.h
 #    TINOINC=tino_common.h
 #    TINOLIB=tino/lib.h
-#INSTALLPATH=/usr/local
+ INSTALLPATH=/usr/local
 # DBG_CFLAGS=
 #DBG_LDFLAGS=
 # DBG_LDLIBS=-lefence
