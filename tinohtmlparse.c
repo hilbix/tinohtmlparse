@@ -10,6 +10,9 @@
  * ekhtml.
  *
  * $Log$
+ * Revision 1.9  2009-01-28 19:29:31  tino
+ * Forgot TAB in meta
+ *
  * Revision 1.8  2009-01-28 18:27:29  tino
  * TAB for separator for last argument changed
  *
@@ -268,6 +271,7 @@ cb_start(void *x, ekhtml_string_t *tag, ekhtml_attr_t *att)
 	{
 	  p_b("N");
 	}
+      tab();
       p_ent(&attr->val);
       p_e();
     }
