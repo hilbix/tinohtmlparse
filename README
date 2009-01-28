@@ -42,20 +42,24 @@ Usage:
 ======
 
 Usage:
-	tinohtmlparse [-r|--raw] [-l|--list]
+	tinohtmlparse [-r|--raw] [-l|--list] [-o|--old]
 
 --list shows a list of known entities
 
 --raw does not convert these entities to their % representation in
 attributes.
 
+--old uses the old output variant.  The new variant separates the
+last argument from the previous one with a TAB instead of SPC.
+
 The HTML file is read from stdin and the output is written to stdout.
 The parsed lines all look like following template:
 
 TYPE TAG ATTR Q TEXT
 
-The first 4 words are guaranteed to not contain SPC ever.  If they are
-empty it is guaranteed that no more words or text follows.
+The words are separated by SPC or TAB.  The first 4 words are
+guaranteed to not contain SPC or TAB ever.  If they are empty it is
+guaranteed that no more words or text follows.
 
 - TYPE is a type string (see below)
 - TAG usually is the HTML TAG (ekhtml converts this to uppercase)
@@ -140,6 +144,9 @@ Please also note that before 0.1.4 the SPC was not escaped to
 -Tino
 webmaster@scylla-charybdis.com
 $Log$
+Revision 1.7  2009-01-28 18:27:29  tino
+TAB for separator for last argument changed
+
 Revision 1.6  2007-12-30 17:57:03  tino
 Placed under the CLL, also one entity code was fixed (&and;)
 

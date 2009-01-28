@@ -10,6 +10,9 @@
  * ekhtml.
  *
  * $Log$
+ * Revision 1.8  2009-01-28 18:27:29  tino
+ * TAB for separator for last argument changed
+ *
  * Revision 1.7  2007-12-30 17:57:03  tino
  * Placed under the CLL, also one entity code was fixed (&and;)
  *
@@ -44,12 +47,18 @@
 
 #include "tino_html_entities.h"
 
-static int	raw_mode;
+static int	raw_mode, old_mode;
  
 static void
 spc(void)
 { 
   putchar(' ');
+}
+
+static void
+tab(void)
+{ 
+  putchar(old_mode ? ' ' : '\t');
 }
 
 static void
@@ -102,7 +111,6 @@ p_b(const char *s, ...)
   va_start(list, s);
   vprintf(s, list);
   va_end(list);
-  spc();
 }
 
 static void
@@ -117,14 +125,23 @@ p_p(ekhtml_string_t *s)
 static void
 p_s(ekhtml_string_t *s)
 {
-  p_p(s);
   spc();
+  p_p(s);
 }
 
 static void
 p_e(void)
 {
   lf();
+}
+
+static void
+p_2(const char *typ, ekhtml_string_t *tag)
+{
+  p_b(typ);
+  tab();
+  p_p(tag);
+  p_e();
 }
 
 static void
@@ -205,7 +222,8 @@ p_m(const char *prefix, ekhtml_string_t *s)
 	    printf("1 ");
 	    break;
 	  }
-      printf("- ");
+      printf("-");
+      tab();
       while (i<j)
         co(s->str[i++]);
       lf();
@@ -220,15 +238,14 @@ cb_start(void *x, ekhtml_string_t *tag, ekhtml_attr_t *att)
 {
   ekhtml_attr_t *attr;
 
-  p_b("open");
-  p_p(tag);
-  p_e();
+  p_2("open", tag);
 
   for (attr=att; attr; attr=attr->next)
     {
       p_b("attr");
       p_s(tag);
       p_s(&attr->name);
+      spc();
       if (attr->isBoolean)
         {
 	  p_b("B");
@@ -259,9 +276,7 @@ cb_start(void *x, ekhtml_string_t *tag, ekhtml_attr_t *att)
 static void
 cb_end(void *x, ekhtml_string_t *tag)
 {
-  p_b("close");
-  p_p(tag);
-  p_e();
+  p_2("close", tag);
 }
 
 static void
@@ -308,6 +323,11 @@ main(int argc, char **argv)
 	    printf("%04x\t%5d\t%s\n", p->unicode, p->unicode, p->entity);
 	  return 0;
 	}
+      if (!strcmp(argv[1], "-o") || !strcmp(argv[1], "--old"))
+	{
+	  old_mode	= !old_mode;
+	  continue;
+	}
       fprintf(stderr,
 	      "Usage: %s [options] < HTMLFILE > parsed_output\n"
 	      "\t\tVersion " TINOHTMLPARSE_VERSION " compiled " __DATE__ "\n"
@@ -317,6 +337,7 @@ main(int argc, char **argv)
 	      "\t\tand transfor something clever, which probably is unwanted\n"
 	      "\t--list\t(also -l) List known htmlentities (without & and ;)\n"
 	      "\t\tNote that &#n; and &#xX; also is known but not listed.\n"
+	      "\t--old\t(also -o) Use old SPC instead of TAB to separate last arg\n"
 	      , argv[0]
 	      );
       return 1;
