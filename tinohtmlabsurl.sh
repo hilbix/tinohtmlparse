@@ -10,6 +10,9 @@
 # see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
 #
 # $Log$
+# Revision 1.6  2009-07-12 22:19:44  tino
+# Url-Parser fixed in tinohtmlabsurl.sh
+#
 # Revision 1.5  2007-12-30 17:57:03  tino
 # Placed under the CLL, also one entity code was fixed (&and;)
 #
@@ -132,6 +135,8 @@ function setbase(b)
   basetype	= parsed["type"]
   basehost	= parsed["host"]
   basepath	= parsed["path"]
+  basefile	= parsed["file"]
+  basequery	= parsed["query"]
 }
 
 # Make a full URI from a relative one
@@ -142,11 +147,26 @@ function makefull(u,p)
 
   dump("1");
 
+  # Bugfix:
+  # We have two options here:
+  # base: http://example.com/dir/file?query#anchor
+  # uri=: ?query
+  # Does the result have a file?
+  # Browsers think 'yes'
+  # This now shall parse #anchor type destinations, too.
+  if (parsed["type"]=="" && parsed["host"]=="" && parsed["path"]=="" && parsed["file"]=="" && parsed["query"]=="")
+    parsed["query"]=basequery;
+  if (parsed["type"]=="" && parsed["host"]=="" && parsed["path"]=="" && parsed["file"]=="")
+    parsed["file"]=basefile;
+
   # Take over type, host and path from BASE URI
   if (parsed["type"]=="")
     parsed["type"]=basetype;
-  if (parsed["host"]=="")
+  # Well, what to do when switching from http: to https:?
+  # news:whatever has no host!
+  if (parsed["host"]=="" && parsed["type"]==basetype)
     parsed["host"]=basehost;
+  # This apparently only works when there was no host
   if (parsed["path"]!~/^\//)
     parsed["path"] = basepath parsed["path"]
 

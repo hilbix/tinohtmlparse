@@ -1,4 +1,5 @@
-Changed the output format.  Now TAB preceedes the URL.
-Now installs into /usr/local/bin
+Bugfix release:  URL parser in tinohtmlabsurl.sh was broken.
 
-If you need the old format with only spaces (space instead of TAB), use --old.
+#anchor and ?query type short URLs did not work correctly.
+It forgot to include the base filename and/or the query.
+Also "mailto:" and "news:" type URLs shall work now.
