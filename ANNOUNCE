@@ -1,3 +1,4 @@
-Bugfix: &and; had the wrong Entitiy code.
+Changed the output format.  Now TAB preceedes the URL.
+Now installs into /usr/local/bin
 
-Also: Code now placed under the CLL.
+If you need the old format with only spaces (space instead of TAB), use --old.
