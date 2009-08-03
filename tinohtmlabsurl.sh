@@ -10,6 +10,9 @@
 # see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
 #
 # $Log$
+# Revision 1.7  2009-08-03 12:41:26  tino
+# Lowercase
+#
 # Revision 1.6  2009-07-12 22:19:44  tino
 # Url-Parser fixed in tinohtmlabsurl.sh
 #
@@ -172,7 +175,7 @@ function makefull(u,p)
 
   dump("2");
 
-  return parsed["type"] parsed["user"] parsed["host"] parsed["path"] parsed["file"] parsed["query"] parsed["anchor"];
+  return tolower(parsed["type"]) parsed["user"] tolower(parsed["host"]) parsed["path"] parsed["file"] parsed["query"] parsed["anchor"];
 }
 
 BEGIN	{

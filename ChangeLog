@@ -3,6 +3,10 @@
 	* tinohtmlabsurl.sh: Relative URL parser fixed, it apparently did
 	not work with #anchor and ?query type URLs.
 
+        * tinohtmlabsurl.sh: host now always lowercase (this certainly
+	does not support foreign charactersets, but whoever implemented
+	that was nuts anyway).
+
 2007-12-30  Valentin Hilbig  <tino@firebird.03.softkill.net>
 
 	* README (Compile): new SF URL for ekthml CVS
