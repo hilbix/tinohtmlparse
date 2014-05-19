@@ -1,3 +1,6 @@
 [submodule "tino"]
 	path = tino
 	url = https://github.com/hilbix/tinolib.git
+[submodule "ekhtml"]
+	path = ekhtml
+	url = https://github.com/hilbix/ekhtml.git

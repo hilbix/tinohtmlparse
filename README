@@ -1,5 +1,3 @@
-$Header$
-
 This Works is placed under the terms of the Copyright Less License,
 see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
 
@@ -7,6 +5,9 @@ However as it ekhtml is linked in statically, binaries must
 be compliant to the EKTHML license.
 
 Origin: http://www.scylla-charybdis.com/tool.php/tinohtmlparse
+Newest: https://github.com/hilbix/tinohtmlparse
+
+
 
 Compile:
 ========
@@ -17,25 +18,19 @@ example it does not parse Comments correctly, like in the following:
 sometimes I come around and write a working version (which then shall
 be able to sanitize HTML as well), but for now, we keep it as it is.
 
-First fetch ekhtml from CVS at sourceforge.net:
-	cvs -d :pserver:anonymous@ekthml.cvs.sourceforge.net:/cvsroot/ekhtml login
-		(empty password)
-	cvs -z3 -d :pserver:anonymous@ekhtml.cvs.sourceforge.net:/cvsroot/ekhtml co ekhtml
+For easy checkout, I created a cvsimport of ekhtml on GitHub.
+Transition to GitHub still is incomplete, but it works as follows:
+
 Compile ekhtml:
+
+	git submodule update --init
 	cd ekhtml; ./autogen.sh; make
+	cd ..
 
 To compile tinohtmlparse:
-
-Create softlink to the source of ekhtml if you compiled it in another directory:
-	ln -s ../somewhere/ekhtml ekhtml
-Then type
 	make
 
-You can ignore the error that tinolib is missing as tinolib is not
-required for this.  If you really want it, grab the distribution of
-tinolib and let the softlink point there like this:
-		ln -s ../somewhere/tinolib-*/old tinolib
-Note that tinolib restricts distributions which bundle it to GPL!
+Note that tinolib is not strictly necessary to compile tinohtmlparse.
 
 
 Usage:
@@ -140,27 +135,3 @@ tinohtmlparse will never do this for you.
 Please also note that before 0.1.4 the SPC was not escaped to
 %20, it was output unchanged.  This is fixed now.
 
-
--Tino
-webmaster@scylla-charybdis.com
-$Log$
-Revision 1.7  2009-01-28 18:27:29  tino
-TAB for separator for last argument changed
-
-Revision 1.6  2007-12-30 17:57:03  tino
-Placed under the CLL, also one entity code was fixed (&and;)
-
-Revision 1.5  2007-12-30 17:15:45  tino
-SF URL
-
-Revision 1.4  2007-09-16 06:19:05  tino
-Output documentation fixed and notes added
-
-Revision 1.3  2007/09/16 06:10:17  tino
-corrected
-
-Revision 1.2  2006/06/11 06:57:30  tino
-Mainly only documentation corrected
-
-Revision 1.1  2005/02/05 23:07:28  tino
-first commit, tinohtmlparse.c is missing "text" aggregation

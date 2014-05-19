@@ -162,6 +162,10 @@ function makefull(u,p)
   if (parsed["type"]=="" && parsed["host"]=="" && parsed["path"]=="" && parsed["file"]=="")
     parsed["file"]=basefile;
 
+  # This apparently only works when there was no host
+  if (parsed["host"]=="" && parsed["path"]!~/^\//)
+    parsed["path"] = basepath parsed["path"]
+
   # Take over type, host and path from BASE URI
   if (parsed["type"]=="")
     parsed["type"]=basetype;
@@ -169,9 +173,9 @@ function makefull(u,p)
   # news:whatever has no host!
   if (parsed["host"]=="" && parsed["type"]==basetype)
     parsed["host"]=basehost;
-  # This apparently only works when there was no host
-  if (parsed["path"]!~/^\//)
-    parsed["path"] = basepath parsed["path"]
+
+  if (parsed["path"]=="")
+    parsed["path"]="/";
 
   dump("2");
 

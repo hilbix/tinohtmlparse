@@ -1,5 +1,2 @@
-Optimization: tinohtmlabsurl.sh now makes hostnames lowercase
-
-Before it could be named EXAMPLE.COM or ExAmPlE.cOm or example.com,
-now it is all lowercase.  Probably works for US-ASCII only.
-(International characters are not yet supported.  Try punycode.)
+Announcements are now in the git commit log:
+git log --follow VERSION
