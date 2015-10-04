@@ -38,3 +38,12 @@ ADD_LDFLAGS=
 
 Makefile::
 	$(MAKE) -C tino tino HERE="$(PWD)"
+
+tinohtmlparse: ekhtml/src/.libs/libekhtml.a
+
+ekhtml/src/.libs/libekhtml.a:	Makefile ekhtml/include/ekhtml.h
+	cd ekhtml; ./autogen.sh; make
+
+ekhtml/include/ekhtml.h:
+	git submodule update --init
+

@@ -1,7 +1,7 @@
 # Makefile automatically generated, do not edit!
 # This output (only this Makefile) is Public Domain.
 #
-#@MD5TINOIGN@ Creation date: Sun Apr 20 21:13:15 CEST 2014
+#@MD5TINOIGN@ Creation date: Sun May 10 15:16:43 CEST 2015
 #
 # This file is based on following files:
 #@MD5TINOIGN@ 1: Makefile.tino
@@ -168,4 +168,14 @@ tino_html_entities.h:	Makefile.md5
 $(PROG1).o:  tinohtmlparse.c ekhtml/include/ekhtml.h \
  tinohtmlparse_version.h tino_html_entities.h
 
+
+#@MD5TINOIGN@ rules from: Makefile.tino
+
+tinohtmlparse: ekhtml/src/.libs/libekhtml.a
+
+ekhtml/src/.libs/libekhtml.a:	Makefile ekhtml/include/ekhtml.h
+	cd ekhtml; ./autogen.sh; make
+
+ekhtml/include/ekhtml.h:
+	git submodule update --init
 # end

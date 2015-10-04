@@ -21,16 +21,17 @@ be able to sanitize HTML as well), but for now, we keep it as it is.
 For easy checkout, I created a cvsimport of ekhtml on GitHub.
 Transition to GitHub still is incomplete, but it works as follows:
 
-Compile ekhtml:
+To compile tinohtmlparse:
+	make
+
+This now automatically compiles ekhtml.  To do this manually:
 
 	git submodule update --init
 	cd ekhtml; ./autogen.sh; make
 	cd ..
 
-To compile tinohtmlparse:
-	make
-
-Note that tinolib is not strictly necessary to compile tinohtmlparse.
+Note that tinolib (subdir tino/) is not strictly necessary to compile
+tinohtmlparse.
 
 
 Usage:
