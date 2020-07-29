@@ -12,6 +12,7 @@
 #ifndef tino_INC_html_entities_h
 #define tino_INC_html_entities_h
 
+#include <stdlib.h>
 #include <string.h>
 
 static struct tino_html_entities
