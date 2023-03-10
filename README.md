@@ -8,6 +8,10 @@ Origin: http://www.scylla-charybdis.com/tool.php/tinohtmlparse
 Newest: https://github.com/hilbix/tinohtmlparse
 
 
+> Note that on Debian you need (and probably others):
+>
+> sudo apt install build-essential autoconf libtoolize gawk
+
 
 Compile:
 ========
